@@ -1,9 +1,11 @@
 package com.soopeach.coco
 
+import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -28,21 +30,30 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+
+        uriList.add("https://helpx.adobe.com/content/dam/help/en/photoshop/using/quick-actions/remove-background-before-qa1.png".toUri())
+        uriList.add("https://t1.daumcdn.net/cfile/tistory/24283C3858F778CA2E".toUri())
+        uriList.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxmp7sE1ggI4_L7NGZWcQT9EyKaqKLeQ5RBg&usqp=CAU".toUri())
+
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val adapter = imgAdapter(uriList)
+
         adapter.setOnItemClickListener(object : OnItemClickListener {
             override fun onClick(view: View, position: Int) {
                 val uri = uriList[position]
-                println(uri)
+                val intent = Intent(this@MainActivity, DetailActivity::class.java)
+                intent.putExtra("uri", uri.toString())
+                startActivity(intent)
+//                Toast.makeText(this@MainActivity, uri.toString(), Toast.LENGTH_SHORT).show()
             }
         })
 
-        CoroutineScope(Dispatchers.IO).launch {
-            getImg(adapter)
-        }
+//        CoroutineScope(Dispatchers.IO).launch {
+//            getImg(adapter)
+//        }
         val recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
         recyclerView.layoutManager = GridLayoutManager(this, 4)
@@ -58,18 +69,7 @@ class MainActivity : AppCompatActivity() {
                     adapter.notifyDataSetChanged()
                 }
             }
-
         }
     }
 
 }
-
-// 전체를 가져온다.
-//spaceRef.listAll().addOnSuccessListener {
-//    it.items.forEach{
-//        it.downloadUrl.addOnCompleteListener {
-//            Glide.with(this).load(it.result).into(img)
-//            Thread.sleep(500)
-//        }
-//    }
-//}
