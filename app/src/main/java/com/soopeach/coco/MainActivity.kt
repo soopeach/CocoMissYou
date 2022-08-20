@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     val uriList = mutableListOf<Uri>()
     val storage = Firebase.storage("gs://coco-ae2c2.appspot.com")
     val storageRef = storage.reference
-    var imagesRef = storageRef.child("images")
+    var thumbnailsRef = storageRef.child("thumbnails")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,13 +53,16 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    // 모든 이미지 한 번에 가져오기 - 안씀.
     fun getImg(adapter: imgAdapter) {
-        imagesRef.listAll().addOnSuccessListener {
+        var cnt = 0
+        thumbnailsRef.listAll().addOnSuccessListener {
             it.items.forEach {
                 it.downloadUrl.addOnCompleteListener {
                     uriList.add(it.result)
 //                    println(uriList)
                     adapter.notifyDataSetChanged()
+                    println("${++cnt} 번째 업데이트")
                 }
             }
         }
@@ -73,7 +76,7 @@ class MainActivity : AppCompatActivity() {
 //        } else {
 //            spaceRef.list(10)
 //        }
-        imagesRef.list(10).addOnSuccessListener {
+        thumbnailsRef.list(100).addOnSuccessListener {
             it.items.forEach {
                 it.downloadUrl.addOnCompleteListener {
                     uriList.add(it.result)
