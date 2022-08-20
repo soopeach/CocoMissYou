@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -76,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 //        } else {
 //            spaceRef.list(10)
 //        }
-        thumbnailsRef.list(100).addOnSuccessListener {
+        thumbnailsRef.list(50).addOnSuccessListener {
             it.items.forEach {
                 it.downloadUrl.addOnCompleteListener {
                     uriList.add(it.result)
