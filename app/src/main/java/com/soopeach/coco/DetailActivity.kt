@@ -26,6 +26,10 @@ class DetailActivity : AppCompatActivity() {
         binding.imageView.load(data?.toUri())
         setContentView(binding.root)
 
+        binding.rotateBtn.setOnClickListener {
+            binding.imageView.rotation += 90f
+        }
+
     }
 
 
