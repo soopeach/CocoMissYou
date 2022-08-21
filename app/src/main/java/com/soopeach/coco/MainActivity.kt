@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
 //        uriList.add("https://t1.daumcdn.net/cfile/tistory/24283C3858F778CA2E".toUri())
 //        uriList.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxmp7sE1ggI4_L7NGZWcQT9EyKaqKLeQ5RBg&usqp=CAU".toUri())
 
-
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -77,7 +76,7 @@ class MainActivity : AppCompatActivity() {
 //        } else {
 //            spaceRef.list(10)
 //        }
-        thumbnailsRef.list(50).addOnSuccessListener {
+        thumbnailsRef.list(100).addOnSuccessListener {
             it.items.forEach {
                 it.downloadUrl.addOnCompleteListener {
                     uriList.add(it.result)
