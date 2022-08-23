@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -20,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     val storage = Firebase.storage("gs://coco-ae2c2.appspot.com")
     val storageRef = storage.reference
     var thumbnailsRef = storageRef.child("thumbnails")
-
+    val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -29,7 +28,6 @@ class MainActivity : AppCompatActivity() {
 //        uriList.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxmp7sE1ggI4_L7NGZWcQT9EyKaqKLeQ5RBg&usqp=CAU".toUri())
 
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val adapter = imgAdapter(uriList)
 
@@ -46,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
 //            getImg(adapter)
             listAllPaginated(null, adapter)
+
         }
         val recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
@@ -80,13 +79,15 @@ class MainActivity : AppCompatActivity() {
             it.items.forEach {
                 it.downloadUrl.addOnCompleteListener {
                     uriList.add(it.result)
+                    if (uriList.size >= 50){
+                        binding.shimmerFrameLayout.stopShimmer()
+                        binding.shimmerFrameLayout.visibility = View.GONE
+                    }
 //                    println(uriList)
                     adapter.notifyDataSetChanged()
                 }
             }
         }
-
-
 
         // You'll need to import com.google.firebase.storage.ktx.component1 and
         // com.google.firebase.storage.ktx.component2

@@ -26,11 +26,11 @@ class DetailActivity : AppCompatActivity() {
         binding.imageView.load(data?.toUri())
         setContentView(binding.root)
 
+        // 이미지 회전
         binding.rotateBtn.setOnClickListener {
             binding.imageView.rotation += 90f
         }
 
     }
-
 
 }
