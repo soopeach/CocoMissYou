@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
             it.items.forEach {
                 it.downloadUrl.addOnCompleteListener {
                     uriList.add(it.result)
-                    if (uriList.size >= 45){
+                    if (uriList.size >= 50){
                         binding.shimmerFrameLayout.stopShimmer()
                         binding.shimmerFrameLayout.visibility = View.GONE
                     }
